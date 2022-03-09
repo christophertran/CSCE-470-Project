@@ -4,6 +4,7 @@ import os
 import glob
 import csv
 import math
+import re
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -22,9 +23,6 @@ def plot(_data, _bins, _title, _xlabel, _ylabel):
     plt.show()
 
 
-cols = ["ARTIST_NAME", "ARTIST_URL", "SONG_NAME", "SONG_URL", "LYRICS"]
-
-
 def fix_data():
     path = "./data/azlyrics-csv/"
 
@@ -32,6 +30,7 @@ def fix_data():
     if os.path.exists(os.path.join(os.getcwd(), path, "all_data.csv")):
         os.remove(os.path.join(os.getcwd(), path, "all_data.csv"))
 
+    cols = ["ARTIST_NAME", "ARTIST_URL", "SONG_NAME", "SONG_URL", "LYRICS"]
     data = {c: [] for c in cols}
 
     for filename in glob.glob(os.path.join(path, "*.csv")):
@@ -40,21 +39,21 @@ def fix_data():
                 if row == cols:
                     continue
                 else:
-                    data[cols[0]].append(row[0])             # ARTIST_NAME
-                    data[cols[1]].append(row[1])             # ARTIST_URL
-                    data[cols[2]].append(row[2])             # SONG_NAME
-                    data[cols[3]].append(row[3])             # SONG_URL
+                    data[cols[0]].append(row[0])  # ARTIST_NAME
+                    data[cols[1]].append(row[1])  # ARTIST_URL
+                    data[cols[2]].append(row[2])  # SONG_NAME
+                    data[cols[3]].append(row[3])  # SONG_URL
                     data[cols[4]].append(" ".join(row[4:]))  # LYRICS
 
     df = pd.DataFrame(data)
     df.to_csv(os.path.join(os.getcwd(), path, "all_data.csv"), index=False)
 
     print(df.head())
-    print('Count: ', len(df.index))
-    print('Unique Artists: ', len(np.unique(df[cols[0]])))
-    print('Unique Artist Urls: ', len(np.unique(df[cols[1]])))
-    print('Unique Songs: ', len(np.unique(df[cols[2]])))
-    print('Unique Song Urls: ', len(np.unique(df[cols[3]])))
+    print("Count: ", len(df.index))
+    print("Unique Artists: ", len(np.unique(df[cols[0]])))
+    print("Unique Artist Urls: ", len(np.unique(df[cols[1]])))
+    print("Unique Songs: ", len(np.unique(df[cols[2]])))
+    print("Unique Song Urls: ", len(np.unique(df[cols[3]])))
 
 
 def get_lyrics_lengths():
@@ -63,8 +62,8 @@ def get_lyrics_lengths():
     df = pd.read_csv(os.path.join(os.getcwd(), path, "all_data.csv"))
 
     all_lengths = []
-    for index, row in df.iterrows():
-        lyrics = row[cols[4]].split(" ")
+    for row in df.itertuples():
+        lyrics = re.sub(r"[^a-zA-Z0-9_ ]", "", row.LYRICS).split(" ")
         all_lengths.append(len(lyrics))
 
     return all_lengths
