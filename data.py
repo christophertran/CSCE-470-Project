@@ -1,17 +1,24 @@
+#! /usr/bin/env python
+
 import os
 import glob
 import csv
+import math
 import pandas as pd
 import numpy as np
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 
 
-def plot(_data, _bins, _range=(-1, -1)):
-    if _range == (-1, -1):
-        plt.hist(_data, _bins)
-    else:
-        plt.hist(_data, _bins, range=_range)
+def plot(_data, _bins, _title, _xlabel, _ylabel):
+    # Create histogram plot
+    plt.hist(_data, _bins)
 
+    # Add title and axis names
+    plt.title(_title)
+    plt.xlabel(_xlabel)
+    plt.ylabel(_ylabel)
+
+    # Show histogram plot
     plt.show()
 
 
@@ -21,6 +28,10 @@ cols = ["ARTIST_NAME", "ARTIST_URL", "SONG_NAME", "SONG_URL", "LYRICS"]
 def fix_data():
     path = "./data/azlyrics-csv/"
 
+    # Remove the all_data.csv file otherwise we will parse that file also.
+    if os.path.exists(os.path.join(os.getcwd(), path, "all_data.csv")):
+        os.remove(os.path.join(os.getcwd(), path, "all_data.csv"))
+
     data = {c: [] for c in cols}
 
     for filename in glob.glob(os.path.join(path, "*.csv")):
@@ -29,17 +40,21 @@ def fix_data():
                 if row == cols:
                     continue
                 else:
-                    data[cols[0]].append(row[0])  # ARTIST_NAME
-                    data[cols[1]].append(row[1])  # ARTIST_URL
-                    data[cols[2]].append(row[2])  # SONG_NAME
-                    data[cols[3]].append(row[3])  # SONG_URL
+                    data[cols[0]].append(row[0])             # ARTIST_NAME
+                    data[cols[1]].append(row[1])             # ARTIST_URL
+                    data[cols[2]].append(row[2])             # SONG_NAME
+                    data[cols[3]].append(row[3])             # SONG_URL
                     data[cols[4]].append(" ".join(row[4:]))  # LYRICS
 
     df = pd.DataFrame(data)
     df.to_csv(os.path.join(os.getcwd(), path, "all_data.csv"), index=False)
 
     print(df.head())
-    print(len(df))
+    print('Count: ', len(df.index))
+    print('Unique Artists: ', len(np.unique(df[cols[0]])))
+    print('Unique Artist Urls: ', len(np.unique(df[cols[1]])))
+    print('Unique Songs: ', len(np.unique(df[cols[2]])))
+    print('Unique Song Urls: ', len(np.unique(df[cols[3]])))
 
 
 def get_lyrics_lengths():
@@ -78,11 +93,11 @@ def __main__():
     # Return a list will all the lengths of the lyrics
     all_lengths = np.array(get_lyrics_lengths())
 
-    print("Inluding outliers: ")
+    print("Including outliers: ")
     print("Min: ", np.min(all_lengths))
     print("Max: ", np.max(all_lengths))
     print("Avg: ", np.sum(all_lengths) // all_lengths.size)
-    print(len(all_lengths))
+    print("Count: ", len(all_lengths))
 
     # Remove outliers from initial list by calculating IQR
     all_lengths2 = np.array(remove_outliers(all_lengths))
@@ -91,9 +106,10 @@ def __main__():
     print("Min: ", np.min(all_lengths2))
     print("Max: ", np.max(all_lengths2))
     print("Avg: ", np.sum(all_lengths2) // all_lengths2.size)
-    print(len(all_lengths2))
+    print("Count: ", len(all_lengths2))
 
-    plot(all_lengths2, 500)
+    num_bins = math.ceil(math.sqrt(all_lengths2.size))
+    plot(all_lengths2, num_bins, "Lyrics Lengths", "# Words", "Frequency")
 
 
 __main__()
