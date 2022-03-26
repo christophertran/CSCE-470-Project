@@ -5,8 +5,10 @@ import glob
 
 import pandas as pd
 
-from rank import BM25
+from scorer import BM25
 
+
+# Number of rows to read from all_data.csv, set to "None" to read all data``
 NROWS = 50
 COLS = ["ARTIST_NAME", "ARTIST_URL", "SONG_NAME", "SONG_URL", "LYRICS"]
 
