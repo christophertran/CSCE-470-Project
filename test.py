@@ -66,10 +66,19 @@ def __main__():
 
     bm25 = BM25(corpus)
 
-    indexes = bm25.get_top_n(Query("party in the usa"), 5)
+    while True:
+        query = input("Enter lyrics query (q to quit): ")
 
-    for index in indexes:
-        print(all_data_df.loc[[index]][[COLS[2], COLS[0]]].to_string(header=False))
+        if not query:
+            continue
+        elif query.lower() == "q":
+            break
+
+        indexes = bm25.get_top_n(Query(query), 5)
+
+        print("-" * 50)
+        print(all_data_df.loc[indexes][[COLS[0], COLS[2]]].to_string(index=False))
+        print("-" * 50)
 
 
 if __name__ == "__main__":

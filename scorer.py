@@ -66,7 +66,7 @@ class BM25:
 
         return idfs
 
-    # Calculates the rsv, or retrieval status value, for a given query. They are the sums 
+    # Calculates the rsv, or retrieval status value, for a given query. They are the sums
     # of individual term (t) scores for each song (doc).
     def _get_rsvs(self, _query):
         rsvs = []
