@@ -6,6 +6,7 @@ import glob
 import pandas as pd
 
 from scorer import BM25, Query
+from stopwords import STOPWORDS
 
 
 # Number of rows to read from all_data.csv, set to "None" to read all data
@@ -62,9 +63,13 @@ def __main__():
         for row in all_data_df.itertuples()
     ]
 
-    corpus = [[lyric.lower() for lyric in lyrics] for lyrics in corpus]
+    corpus = [
+        [lyric.lower() for lyric in lyrics if lyric.lower() not in STOPWORDS]
+        for lyrics in corpus
+    ]
 
-    bm25 = BM25(corpus)
+    bm25 = BM25()
+    bm25.fit(corpus)
 
     while True:
         query = input("Enter lyrics query (q to quit): ")
@@ -74,7 +79,7 @@ def __main__():
         elif query.lower() == "q":
             break
 
-        indexes = bm25.get_top_n(Query(query), 5)
+        indexes = bm25.query_n(Query(query), 5)
 
         print("-" * 50)
         print(all_data_df.loc[indexes][[COLS[0], COLS[2]]].to_string(index=False))
