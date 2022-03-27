@@ -5,11 +5,11 @@ import glob
 
 import pandas as pd
 
-from scorer import BM25
+from scorer import BM25, Query
 
 
-# Number of rows to read from all_data.csv, set to "None" to read all data``
-NROWS = 50
+# Number of rows to read from all_data.csv, set to "None" to read all data
+NROWS = None
 COLS = ["ARTIST_NAME", "ARTIST_URL", "SONG_NAME", "SONG_URL", "LYRICS"]
 
 
@@ -62,7 +62,14 @@ def __main__():
         for row in all_data_df.itertuples()
     ]
 
+    corpus = [[lyric.lower() for lyric in lyrics] for lyrics in corpus]
+
     bm25 = BM25(corpus)
+
+    indexes = bm25.get_top_n(Query("party in the usa"), 5)
+
+    for index in indexes:
+        print(all_data_df.loc[[index]][[COLS[2], COLS[0]]].to_string(header=False))
 
 
 if __name__ == "__main__":
