@@ -3,7 +3,7 @@
 ## How to setup the environment to execute the code
 1. Clone this repository
 2. In your terminal, navigate to within this repository's folder. (e.g. with `cd ~/CSCE-470-Project`)
-3. Execute the command `python3 test.py`. It will prompt you to enter a query statement that will be searched within our songs collection (data/azlyrics-csv).
+3. Execute the command `python3 python/test.py`. It will prompt you to enter a query statement that will be searched within our songs collection (data/azlyrics-csv).
 
 ## BM25 Equation
 The following is the core algorithm that we decided to follow in order to implement docment ranking amongs our song collection.
