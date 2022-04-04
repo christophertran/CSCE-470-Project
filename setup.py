@@ -89,7 +89,6 @@ def setup():
 
 
 def query(_query, _n=5):
-    global COLS
     global SCORER
     global ALL_DATA_DF
 
@@ -102,6 +101,6 @@ def query(_query, _n=5):
     indexes = SCORER.query_n(Query(_query), _n)
 
     if indexes:
-        return ALL_DATA_DF.loc[indexes].to_string(index=False)
+        return ALL_DATA_DF.loc[indexes]
     else:
         return pd.DataFrame()
