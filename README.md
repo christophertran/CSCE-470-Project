@@ -3,7 +3,7 @@
 ## How to run FLASK webapp
 1. Ensure you're in `~/CSCE-470-Project`
 1. Create a python virtual environment with `python3 -m venv venv`
-1. Enter the python virtual environment with `. venv/Scripts/activate`
+1. Enter the python virtual environment with `. venv/Scripts/activate` or `. venv/bin/activate`
 1. Install the required python modules with `pip install -r requirements.txt`
 1. Start the FLASK server with `flask run`
 1. Exit the python virtual environment with `deactivate`
