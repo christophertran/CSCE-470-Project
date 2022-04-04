@@ -5,8 +5,8 @@ import glob
 
 import pandas as pd
 
-from scorer import BM25, Query
-from stopwords import STOPWORDS
+from scripts.scorer import BM25, Query
+from scripts.stopwords import STOPWORDS
 
 
 # Number of rows to read from all_data.csv, set to "None" to read all data
@@ -14,7 +14,13 @@ NROWS = None
 COLS = ["ARTIST_NAME", "ARTIST_URL", "SONG_NAME", "SONG_URL", "LYRICS"]
 
 
+SCORER = None
+ALL_DATA_DF = pd.DataFrame()
+
+
 def create_all_data(_path, _filename):
+    global COLS
+
     if os.path.exists(os.path.join(_path, _filename)):
         os.remove(os.path.join(_path, _filename))
 
@@ -49,18 +55,25 @@ def read_all_data(_path, _filename, _nrows=None):
     return df
 
 
-def __main__():
+def setup():
+    print("-" * 25)
+    print("STARTING SETUP OF BM25 SCORER")
+
+    global NROWS
+    global SCORER
+    global ALL_DATA_DF
+
     # Path to location of all_data.csv file
     path = os.path.join(os.getcwd(), "data", "azlyrics-csv")
     filename = "all_data.csv"
 
     # Read all data into a pandas dataframe
-    all_data_df = read_all_data(path, filename, NROWS)
+    ALL_DATA_DF = read_all_data(path, filename, NROWS)
 
     # Create corpus with lyrics, tokenize lyrics before adding to corpus.
     corpus = [
         re.sub(r"[^a-zA-Z0-9_ ]", "", row.LYRICS).split(" ")
-        for row in all_data_df.itertuples()
+        for row in ALL_DATA_DF.itertuples()
     ]
 
     corpus = [
@@ -68,23 +81,27 @@ def __main__():
         for lyrics in corpus
     ]
 
-    bm25 = BM25()
-    bm25.fit(corpus)
-
-    while True:
-        query = input("Enter lyrics query (q to quit): ")
-
-        if not query:
-            continue
-        elif query.lower() == "q":
-            break
-
-        indexes = bm25.query_n(Query(query), 5)
-
-        print("-" * 50)
-        print(all_data_df.loc[indexes][[COLS[0], COLS[2]]].to_string(index=False))
-        print("-" * 50)
+    SCORER = BM25()
+    SCORER.fit(corpus)
+    print("Corpus Length: ", len(corpus))
+    print("ENDING SETUP OF BM25 SCORER")
+    print("-" * 25)
 
 
-if __name__ == "__main__":
-    __main__()
+def query(_query, _n=5):
+    global COLS
+    global SCORER
+    global ALL_DATA_DF
+
+    if not _query:
+        return pd.DataFrame()
+
+    if not SCORER or ALL_DATA_DF.empty:
+        setup()
+
+    indexes = SCORER.query_n(Query(_query), _n)
+
+    if indexes:
+        return ALL_DATA_DF.loc[indexes].to_string(index=False)
+    else:
+        return pd.DataFrame()

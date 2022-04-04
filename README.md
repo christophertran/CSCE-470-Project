@@ -1,5 +1,13 @@
 # CSCE-470-Project
 
+## How to run FLASK webapp
+1. Ensure you're in `~/CSCE-470-Project`
+1. Create a python virtual environment with `python3 -m venv venv`
+1. Enter the python virtual environment with `. venv/Scripts/activate`
+1. Install the required python modules with `pip install -r requirements.txt`
+1. Start the FLASK server with `flask run`
+1. Exit the python virtual environment with `deactivate`
+
 ## How to setup the environment to execute the code
 1. Clone this repository
 2. In your terminal, navigate to within this repository's folder. (e.g. with `cd ~/CSCE-470-Project`)
@@ -10,7 +18,6 @@ The following is the core algorithm that we decided to follow in order to implem
 ![BM25 Equation](./imgs/BM25Equation.png)
 
 ### IDF Equation
-
 ![IDF Equation](./imgs/IDFEquation.png)
 
 ### IDF Equation (Accounts for negatives)

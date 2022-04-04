@@ -2,8 +2,7 @@ import re
 import math
 
 from collections import Counter
-
-from stopwords import STOPWORDS
+from scripts.stopwords import STOPWORDS
 
 
 class Query:
