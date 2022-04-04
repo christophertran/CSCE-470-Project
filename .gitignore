@@ -1,5 +1,5 @@
 .vscode
 .DS_Store
 *.pyc
-venv
+
 all_data.csv
