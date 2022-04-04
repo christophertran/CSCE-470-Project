@@ -21,8 +21,6 @@
         <!--CSS files -->
         <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 
-
-
         <style>
             .bd-placeholder-img {
               font-size: 1.125rem;
@@ -54,20 +52,22 @@
             </header>
         
             <main>
+
                 <section class="py-5 text-center container">
                     <div class="row py-lg-5">
                         <div class="col-lg-6 col-md-8 mx-auto">
                             <h1 class="fw-light">Search for songs</h1>
                             <p class="lead">Enter in a word or phrase that you want to find within a song.</p>
-
-                            <!-- ! This is where the user will enter in their query -->
-                            <form class="form-group">
-                                <input type="text" class="form-control" id="query_input" placeholder="Enter a lyric/phrase">
-                                <br>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                            
+                            <!-- ! This is where the user will enter in their query **** -->
+                            <form action="#" method="post"> 
+                                <div class="form-group">
+                                    <!-- Below, the name="query" is what is connected to app.py -->
+                                    <input type="text" name="query" class="form-control" id="query_input" placeholder="Enter a lyric/phrase">
+                                    <br>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
                             </form>
-
-
 
                         </div>
                     </div>
