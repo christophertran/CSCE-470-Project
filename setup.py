@@ -10,7 +10,7 @@ from scripts.stopwords import STOPWORDS
 
 
 # Number of rows to read from all_data.csv, set to "None" to read all data
-NROWS = None
+NROWS = 50
 COLS = ["ARTIST_NAME", "ARTIST_URL", "SONG_NAME", "SONG_URL", "LYRICS"]
 
 

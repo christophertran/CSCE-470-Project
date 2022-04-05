@@ -30,3 +30,6 @@ def find():
             output.append([row.SONG_NAME, row.ARTIST_NAME, row.SONG_URL])
 
     return render_template("find.html", outputtext=output)
+
+if __name__ == "__main__":
+    app.run()
