@@ -1,5 +1,8 @@
 # CSCE-470-Project
 
+## Hosted on Heroku
+[Link](https://csce-470-project-2022.herokuapp.com/)
+
 ## How to run FLASK webapp
 1. Ensure you're in `~/CSCE-470-Project`
 1. Create a python virtual environment with `python3 -m venv venv`
