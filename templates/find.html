@@ -43,10 +43,10 @@
         <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
             <header class="mb-auto">
                 <div>
-                    <h3 class="float-md-start mb-0">CSCE 470</h3>
+                    <h3 class="float-md-start mb-0"><a href="{{ url_for('index') }}">CSCE 470</a></h3>
                     <nav class="nav nav-masthead justify-content-center float-md-end">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Home</a>
-                        <a class="nav-link" href="{{ url_for('find') }}">Find that Lyric</a>
+                        <a class="nav-link" aria-current="page" href="{{ url_for('index') }}">Home</a>
+                        <a class="nav-link active" href="{{ url_for('find') }}">Find that Lyric</a>
                     </nav>
                 </div>
             </header>
@@ -60,7 +60,7 @@
                             <p class="lead">Enter in a word or phrase that you want to find within a song.</p>
                             
                             <!-- ! This is where the user will enter in their query **** -->
-                            <form action="#" method="post"> 
+                            <form action="/find" method="get"> 
                                 <div class="form-group">
                                     <!-- Below, the name="query_text" is what is connected to app.py -->
                                     <input type="text" name="query_text" class="form-control" id="query_input" placeholder="Enter a lyric/phrase">
@@ -73,57 +73,30 @@
                     </div>
                 </section>
 
-                <div class="album py-5 bg-light">
+                <div class="album py-5 bg-dark">
                     <div class="container">
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"> 
-                            <!-- Result 1 -->
+                            <!-- Result -->
+                            {% for item in outputtext %}
                             <div class="col">
-                                <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                </div>
-                                </div>
-                            </div>
-                            <!-- Result 2 -->
-                            <div class="col">
-                                <div class="card shadow-sm">
-                                    <div class="card-body">
-                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <a href="{{ item[2] }}" target="_blank" rel="noopener noreferrer">
+                                <div class="flip-card">
+                                    <div class="flip-card-inner">
+                                      <div class="flip-card-front">
+                                        <p></p>
+                                        <p></p>
+                                        <p><strong>{{item[0]}}</strong></p>
+                                      </div>
+                                      <div class="flip-card-back">
+                                        <p></p>
+                                        <p></p>
+                                        <p>{{item[1]}}</p>
+                                      </div>
                                     </div>
                                 </div>
+                            </a>
                             </div>
-                            <!-- Result 3 -->
-                            <div class="col">
-                                <div class="card shadow-sm">
-                                    <div class="card-body">
-                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Result 4 -->
-                            <div class="col">
-                                <div class="card shadow-sm">
-                                <div class="card-body">
-                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                </div>
-                                </div>
-                            </div>
-                            <!-- Result 5 -->
-                            <div class="col">
-                                <div class="card shadow-sm">
-                                    <div class="card-body">
-                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Result 6 -->
-                            <div class="col">
-                                <div class="card shadow-sm">
-                                    <div class="card-body">
-                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

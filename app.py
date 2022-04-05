@@ -14,17 +14,19 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/find", methods=["GET", "POST"])
+@app.route("/find", methods=["GET"])
 def find():
-    if request.method == "POST":
-        # Gets textbox words and stores them in this variable
-        user_query = request.form[
+    output = []
+    if request.args:
+        # Gets query_text parameter value and stores it.
+        user_query = request.args.get(
             "query_text"
-        ].lower()  # You will see name="query_text" at our form's textbox on find.html
+        )  # You will see name="query_text" at our form's textbox on find.html
 
         # Returns pandas dataframe with COLS and n rows
-        retrieved_songs = query(user_query, 5)
+        retrieved_songs = query(user_query, 6)
+
         for row in retrieved_songs.itertuples():
-            print(row.SONG_NAME)
-            print(row.ARTIST_NAME)
-    return render_template("find.html")
+            output.append([row.SONG_NAME, row.ARTIST_NAME, row.SONG_URL])
+
+    return render_template("find.html", outputtext=output)
