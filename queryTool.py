@@ -6,7 +6,7 @@ from scripts.scorer import BM25, Query
 
 # Set CORPUS_LENGTH to None to use ALL docs in the db
 # otherwise, set it to however many you want read from the db
-CORPUS_LENGTH = 25000
+CORPUS_LENGTH = 50000
 
 class QueryTool:
     def __init__(self):
