@@ -1,1 +1,1 @@
-web: gunicorn app:app --timeout 600
+web: gunicorn app:app -w 1 --timeout 600
