@@ -1,10 +1,9 @@
-from setup import setup, query
+from queryTool import QueryTool
 from flask import Flask, render_template, request, url_for, redirect
 
-# Setup the BM25 scorer so that we can call the query function
-# This is called before setting up the server because we want to be
-# able to quickly query the data. The initial setup takes the longest.
-setup()
+# Create the QueryTool object that will setup the BM25 scorer
+# call queryTool.query() to find relevant documents to the query.
+queryTool = QueryTool()
 
 app = Flask(__name__)
 
@@ -23,13 +22,14 @@ def find():
             "query_text"
         )  # You will see name="query_text" at our form's textbox on find.html
 
-        # Returns pandas dataframe with COLS and n rows
-        retrieved_songs = query(user_query, 6)
+        # Returns list of dictionaries whose keys are column names
+        retrieved_songs = queryTool.query(user_query, 6)
 
-        for row in retrieved_songs.itertuples():
-            output.append([row.SONG_NAME, row.ARTIST_NAME, row.SONG_URL])
+        for doc in retrieved_songs:
+            output.append([doc["SONG_NAME"], doc["ARTIST_NAME"], doc["SONG_URL"]])
 
     return render_template("find.html", outputtext=output)
+
 
 if __name__ == "__main__":
     app.run()
