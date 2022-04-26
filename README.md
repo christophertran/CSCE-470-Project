@@ -1,7 +1,7 @@
 # CSCE-470-Project
 
 ## Hosted on Heroku
-[Link](https://csce-470-project-2022.herokuapp.com/)
+[Link](https://csce-470-lyric-retriever.herokuapp.com/)
 
 ## How to run FLASK webapp
 1. Ensure you're in `~/CSCE-470-Project`
