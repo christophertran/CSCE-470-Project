@@ -8,6 +8,7 @@ from scripts.scorer import BM25, Query
 # otherwise, set it to however many you want read from the db
 CORPUS_LENGTH = 35000
 
+
 class QueryTool:
     def __init__(self):
         self.username = "testuser"
@@ -43,7 +44,7 @@ class QueryTool:
             corpus.append(doc["LYRICS"].split(" "))
 
             count += 1
-            if (CORPUS_LENGTH and count >= CORPUS_LENGTH):
+            if CORPUS_LENGTH and count >= CORPUS_LENGTH:
                 break
 
         self.scorer = BM25()
@@ -63,4 +64,6 @@ class QueryTool:
         if not indexes:
             return []
 
-        return [self.collection.find({"_id": self.doc_ids[index]})[0] for index in indexes]
+        return [
+            self.collection.find({"_id": self.doc_ids[index]})[0] for index in indexes
+        ]

@@ -12,7 +12,7 @@ class Query:
         self.query_words = [
             query_word.lower()
             for query_word in self.query_words
-            if query_word.lower() not in STOPWORDS
+            # if query_word.lower() not in STOPWORDS
         ]
 
 
